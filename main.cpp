@@ -14,6 +14,7 @@ void clouds();
 void hills();
 void ship();
 void stand();
+void containers();
 void timer(int);
 void timer2(int);
 
@@ -57,6 +58,7 @@ void display(){
     clouds();
     hills();
     ship();
+    containers();
 
     boat();
     stand();
@@ -555,6 +557,49 @@ void ship(){
     // End  back white building on th ship
 }
 
+void containers(){
+    glBegin(GL_POLYGON);
+    glColor3f(0,0.3,0);
+    glVertex2f(-4.8, 1.85);
+    glVertex2f( -4.8,2.6);
+    glVertex2f(-6.5, 2.35);
+    glVertex2f(-6.5, 1.6);  // from this point I draw the left upper corridor
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glColor3f(0,0.9,0);
+    glVertex2f( -4.8,2.6);
+    glVertex2f(-6.5, 2.35);
+    glVertex2f(-6.7, 2.55);
+    glVertex2f(-5, 2.8);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glColor3f(0,0.9,0);
+    glVertex2f(-6.5, 1.6);
+    glVertex2f(-6.5, 2.35);
+    glVertex2f(-6.7, 2.5);
+    glVertex2f(-6.7, 1.75);
+    glEnd();
+
+
+    glBegin(GL_POLYGON);
+    glColor3f(1, 0.6328, 0.1797);
+    glVertex2f(-6.7, 2.55);
+    glVertex2f(-5, 2.8);
+    glVertex2f(-5.2, 3);
+    glVertex2f(-6.9, 2.75);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glColor3f(1, 0.6328, 0.1797);
+    glVertex2f(-6.7, 1.75);
+    glVertex2f(-6.7, 2.6);
+    glVertex2f(-6.9, 2.8);
+    glVertex2f(-6.9, 1.9);
+    glEnd();
+}
+
 void stand(){
 
     glTranslatef(-8.5, -4.2, 0.0);
@@ -627,5 +672,8 @@ void timer(int){
 void timer2(int){
     glutPostRedisplay();
     glutTimerFunc(1000/60, timer2, 0);
-    x_position_cloud += 0.008;
+    if (x_position_cloud  > 10.0)
+        x_position_cloud = -10;
+    else
+        x_position_cloud += 0.008;
 }
