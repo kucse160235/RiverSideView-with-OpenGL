@@ -10,10 +10,12 @@ void field();
 void boat();
 void walkside();
 void sky();
+void clouds();
 void hills();
 void ship();
 void stand();
 void timer(int);
+void timer2(int);
 
 void init (){
     glClearColor(0.263, 0.808, 0.837, 1.0);
@@ -31,6 +33,7 @@ int main(int argc, char**argv){
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutTimerFunc(0, timer, 0);
+    glutTimerFunc(0, timer2, 0);
     init();
 
     //PlaySound("a.way", NULL, );
@@ -38,6 +41,7 @@ int main(int argc, char**argv){
 }
 
 float x_position_boat = 0.0;
+float x_position_cloud = -10.0;
 int state = 1;
 
 void display(){
@@ -50,6 +54,7 @@ void display(){
     walkside();
 
     sky();
+    clouds();
     hills();
     ship();
 
@@ -221,6 +226,38 @@ void sky(){
     for(float i=0; i< 2*3.1416; i += 3.1416/10)
         glVertex2f(6+cos(i) * radious, 9+sin(i)*radious);
     glEnd();
+
+}
+
+void clouds(){
+    glBegin(GL_POLYGON);
+    glColor3f(1,1,1);
+
+    float radious = 0.5;
+    for(float i=0; i< 2*3.1416; i += 3.1416/20)
+        glVertex2f(x_position_cloud-0.5+cos(i) * radious, 9+ sin(i)*radious);
+
+    radious = 0.8;
+    for(float i=0; i< 2*3.1416; i += 3.1416/20)
+        glVertex2f(x_position_cloud+cos(i) * radious, 9+ sin(i)*radious);
+
+
+    radious = 0.5;
+    for(float i=0; i< 2*3.1416; i += 3.1416/20)
+        glVertex2f(x_position_cloud+0.5+cos(i) * radious, 9+ sin(i)*radious);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+
+    radious = 0.8;
+    for(float i=0; i< 2*3.1416; i += 3.1416/20)
+        glVertex2f(x_position_cloud+3.5+cos(i) * radious, 8+ sin(i)*radious);
+
+    radious = 0.5;
+    for(float i=0; i< 2*3.1416; i += 3.1416/20)
+        glVertex2f(x_position_cloud+2.5+cos(i) * radious, 8+ sin(i)*radious);
+    glEnd();
+
 
 }
 
@@ -576,13 +613,19 @@ void timer(int){
     glutTimerFunc(1000/60, timer, 0);
     switch (state){
         case 1: if (x_position_boat > -17.5)
-                    x_position_boat -= 0.03;
+                    x_position_boat -= 0.01;
                 else
                     state = -1;
                 break;
         case -1: if (x_position_boat < -2)
-                    x_position_boat += 0.03;
+                    x_position_boat += 0.01;
                 else
                     state = 1;
     }
+}
+
+void timer2(int){
+    glutPostRedisplay();
+    glutTimerFunc(1000/60, timer2, 0);
+    x_position_cloud += 0.008;
 }
